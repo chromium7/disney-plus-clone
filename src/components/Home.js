@@ -1,12 +1,15 @@
 import ImageSlider from "./ImageSlider";
+import Movies from "./Movies";
 import React from "react";
+import Viewers from "./Viewers";
 import styled from "styled-components";
 
 function Home() {
   return (
     <Container>
       <ImageSlider />
-      <h1>helo</h1>
+      <Viewers />
+      <Movies />
     </Container>
   );
 }
