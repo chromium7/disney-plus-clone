@@ -1,5 +1,8 @@
 import "./App.css";
 
+import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+
+import Details from "./components/Detail";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import React from "react";
@@ -7,8 +10,17 @@ import React from "react";
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Home />
+      <Router>
+        <Header />
+        <Switch>
+          <Route path="/detail">
+            <Details />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
