@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React from "react";
 import { selectMovies } from "../features/movie/movieSlice";
 import styled from "styled-components";
@@ -11,9 +12,11 @@ function Movies() {
       <h4>Recommended for You</h4>
       <Content>
         {movies &&
-          movies.map((movie) => (
-            <Wrap>
-              <img src={movie.cardImg} />
+          movies.map((movie, index) => (
+            <Wrap key={index}>
+              <Link to={`/detail/${movie.id}`}>
+                <img src={movie.cardImg} alt={movie.title} />
+              </Link>
             </Wrap>
           ))}
       </Content>

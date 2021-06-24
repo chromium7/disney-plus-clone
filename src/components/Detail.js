@@ -1,43 +1,58 @@
-import React from "react";
+import React, { Fragment, useEffect, useState } from "react";
+
+import db from "../firebase";
 import styled from "styled-components";
+import { useParams } from "react-router";
 
 function Details() {
+  const { id } = useParams();
+  const [movie, setMovie] = useState();
+
+  useEffect(() => {
+    // Grab the movie info from db
+    db.collection("movies")
+      .doc(id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          // Save the movie data
+          setMovie(doc.data());
+        } else {
+          // Redirect to home page
+        }
+      });
+  }, []);
+
   return (
     <Container>
-      <Background>
-        <img src="/images/loki-big.jpg" />
-      </Background>
-      <ImageTitle>
-        <img src="/images/loki-title.png" />
-      </ImageTitle>
-      <Controls>
-        <PlayButton>
-          <img src="/images/play-icon-black.png" />
-          <span>Play</span>
-        </PlayButton>
-        <TrailerButton>
-          <img src="/images/play-icon-white.png" />
-          <span>Trailer</span>
-        </TrailerButton>
-        <AddButton>
-          <span>+</span>
-        </AddButton>
-        <GroupWatchButton>
-          <img src="/images/group-icon.png" />
-        </GroupWatchButton>
-      </Controls>
-      <Subtitle>2021 - 7m - Family, Fantasy, Kids, Animation</Subtitle>
-      <Description>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </Description>
+      {movie && (
+        <Fragment>
+          <Background>
+            <img src={movie.backgroundImg} />
+          </Background>
+          <ImageTitle>
+            <img src={movie.titleImg} />
+          </ImageTitle>
+          <Controls>
+            <PlayButton>
+              <img src="/images/play-icon-black.png" />
+              <span>Play</span>
+            </PlayButton>
+            <TrailerButton>
+              <img src="/images/play-icon-white.png" />
+              <span>Trailer</span>
+            </TrailerButton>
+            <AddButton>
+              <span>+</span>
+            </AddButton>
+            <GroupWatchButton>
+              <img src="/images/group-icon.png" />
+            </GroupWatchButton>
+          </Controls>
+          <Subtitle>{movie.subTitle}</Subtitle>
+          <Description>{movie.description}</Description>
+        </Fragment>
+      )}
     </Container>
   );
 }
